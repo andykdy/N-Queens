@@ -3,6 +3,7 @@ from functools import reduce
 def main(N):
     new_state = State(N)
     new_state.print()
+    new_state.get_score()
 
 
 if __name__ == "__main__":
