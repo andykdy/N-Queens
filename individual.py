@@ -1,11 +1,19 @@
 import random
+import math
 from functools import reduce
 
+"""
+A state is a single individual in a population.
 
-class State:
-    def __init__(self,N):
+"""
+class Individual:
+    def __init__(self, N):
         self.N = N
         self.DNA = [random.randint(1,self.N) for i in range(self.N)]
+
+    # Required to use class as Key in dictionary
+    def __hash__(self):
+        return hash(self.concat_dna())
 
     def print(self):
         res = self.DNA
@@ -24,8 +32,18 @@ class State:
         # Vertical hits are not possible because each queen owns one column
         score += check_horizontal(self.DNA)
         score += check_diagonal(self.DNA)
-        print("State has a score of {0}".format(score))
+        print("Individual has a score of {0}".format(score))
         return score
+
+    def concat_dna(self):
+        ret = 0
+        for i in range(self.N - 1, -1, -1):
+            ret += (math.pow(10,i) * self.DNA[self.N - i - 1])
+        return int(ret)
+
+    # def __str__(self):
+
+
 
 
 def check_horizontal(position):
@@ -38,6 +56,7 @@ def check_horizontal(position):
 
 
 def check_diagonal(position):
+    # TODO More optimal algorithm possible
     score = 0
     for x1, y1 in enumerate(position):
         for x2, y2 in enumerate(position):
@@ -46,7 +65,6 @@ def check_diagonal(position):
     # Remove self hits
     score -= len(position)
     return score
-    return 0
 
 
 def print_line(N):
