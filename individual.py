@@ -3,13 +3,12 @@ import math
 from functools import reduce
 
 """
-A state is a single individual in a population.
-
+A individual in a population.
 """
 class Individual:
-    def __init__(self, N):
-        self.N = N
-        self.DNA = [random.randint(1,self.N) for i in range(self.N)]
+    def __init__(self, n):
+        self.n = n
+        self.DNA = [random.randint(1,self.n) for i in range(self.n)]
 
     # Required to use class as Key in dictionary
     def __hash__(self):
@@ -17,15 +16,15 @@ class Individual:
 
     def print(self):
         res = self.DNA
-        print_line(self.N)
-        for i in range(self.N):
+        print_line(self.n)
+        for i in range(self.n):
             for j, val in enumerate(res):
                 if i + 1 == val:
                     print("|QN",end="")
                 else:
                     print("|  ",end="")
             print("|")
-            print_line(self.N)
+            print_line(self.n)
 
     def get_score(self):
         score = 0
@@ -37,8 +36,8 @@ class Individual:
 
     def concat_dna(self):
         ret = 0
-        for i in range(self.N - 1, -1, -1):
-            ret += (math.pow(10,i) * self.DNA[self.N - i - 1])
+        for i in range(self.n - 1, -1, -1):
+            ret += (math.pow(10,i) * self.DNA[self.n - i - 1])
         return int(ret)
 
     # def __str__(self):
@@ -47,27 +46,23 @@ class Individual:
 
 
 def check_horizontal(position):
-    score = 0
+    score = -len(position)
     for x, y in enumerate(position):
-        score += reduce(lambda sum, curr: sum + 1 if curr == y else sum, [0] + position)
-    # Remove self hits
-    score -= len(position)
+        score += reduce(lambda _sum, curr: _sum + 1 if curr == y else _sum, [0] + position)
     return score
 
 
 def check_diagonal(position):
     # TODO More optimal algorithm possible
-    score = 0
+    score = - len(position)
     for x1, y1 in enumerate(position):
         for x2, y2 in enumerate(position):
             if abs(x1 - x2) == abs(y1 - y2):
                 score+=1
-    # Remove self hits
-    score -= len(position)
     return score
 
 
-def print_line(N):
-    for i in range(N):
+def print_line(n):
+    for i in range(n):
         print(".--", end="")
     print(".")
