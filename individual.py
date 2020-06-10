@@ -14,17 +14,14 @@ class Individual:
     def __hash__(self):
         return hash(self.concat_dna())
 
-    def print(self):
-        res = self.DNA
-        print_line(self.n)
+    def __str__(self):
+        ret = print_line(self.n, "")
         for i in range(self.n):
-            for j, val in enumerate(res):
-                if i + 1 == val:
-                    print("|QN",end="")
-                else:
-                    print("|  ",end="")
-            print("|")
-            print_line(self.n)
+            for j, val in enumerate(self.DNA):
+                ret = ret + "|QN" if i + 1 == val else ret + "|  "
+            ret += "|\n"
+            ret = print_line(self.n, ret)
+        return ret
 
     def get_score(self):
         score = 0
@@ -37,12 +34,8 @@ class Individual:
     def concat_dna(self):
         ret = 0
         for i in range(self.n - 1, -1, -1):
-            ret += (math.pow(10,i) * self.DNA[self.n - i - 1])
+            ret += (math.pow(10, i) * self.DNA[self.n - i - 1])
         return int(ret)
-
-    # def __str__(self):
-
-
 
 
 def check_horizontal(position):
@@ -58,11 +51,11 @@ def check_diagonal(position):
     for x1, y1 in enumerate(position):
         for x2, y2 in enumerate(position):
             if abs(x1 - x2) == abs(y1 - y2):
-                score+=1
+                score += 1
     return score
 
 
-def print_line(n):
+def print_line(n, val):
     for i in range(n):
-        print(".--", end="")
-    print(".")
+        val += ".--"
+    return val + ".\n"

@@ -5,8 +5,9 @@ def test(n,pop):
     population = {}
     for i in range(pop):
         new_pop = Individual(n)
-        print(new_pop.concat_dna())
-        population[new_pop] = new_pop.get_score()
+        # print(new_pop.concat_dna())
+        # population[new_pop] = new_pop.get_score()
+        print (new_pop)
     pass
 
 def main(n):
