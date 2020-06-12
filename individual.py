@@ -5,10 +5,13 @@ from functools import reduce
 """
 A individual in a population.
 """
+
+
 class Individual:
-    def __init__(self, n):
+    def __init__(self, n, manual_dna = None):
         self.n = n
-        self.DNA = [random.randint(1,self.n) for i in range(self.n)]
+        self.DNA = [random.randint(1, self.n) for i in range(self.n)] if manual_dna is None else manual_dna
+        self.score = 0
 
     # Required to use class as Key in dictionary
     def __hash__(self):
@@ -24,18 +27,22 @@ class Individual:
         return ret
 
     def get_score(self):
-        score = 0
-        # Vertical hits are not possible because each queen owns one column
-        score += check_horizontal(self.DNA)
-        score += check_diagonal(self.DNA)
-        print("Individual has a score of {0}".format(score))
-        return score
+        if self.score is 0:
+            # Vertical hits are not possible because each queen owns one column
+            self.score += check_horizontal(self.DNA)
+            self.score += check_diagonal(self.DNA)
+            self.score = int(self.score / 2)
+            #print("Individual has a score of {0}".format(self.score))
+        return self.score
 
     def concat_dna(self):
         ret = 0
         for i in range(self.n - 1, -1, -1):
             ret += (math.pow(10, i) * self.DNA[self.n - i - 1])
         return int(ret)
+
+    def get_dna(self):
+        return self.DNA
 
 
 def check_horizontal(position):
