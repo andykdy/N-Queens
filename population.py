@@ -1,4 +1,5 @@
 import random
+from individual import Individual
 
 
 class Population:
@@ -25,5 +26,26 @@ class Population:
             for j in range(ind.get_score()):
                 weighted.append(i)
         return self.individuals[random.choice(weighted)]
+
+    def breed(self, indiv_a, indiv_b):
+        a = indiv_a.get_dna().copy()
+        b = indiv_b.get_dna().copy()
+        idx = random.randint(1, self.n - 1)
+        for i in range(idx):
+            a[i] = a[i] + b[i]
+            b[i] = a[i] - b[i]
+            a[i] = a[i] - b[i]
+        self.add_individual(Individual(self.n, a))
+        self.add_individual(Individual(self.n, b))
+
+
+
+def dna_splice(a,b):
+    n = len(a)
+    idx = random.randint(1, n - 1)
+    for i in range(idx):
+        a[i] = a[i] + b[i]
+        b[i] = a[i] - b[i]
+        a[i] = a[i] - b[i]
 
 

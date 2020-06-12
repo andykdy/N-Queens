@@ -8,7 +8,7 @@ A individual in a population.
 
 
 class Individual:
-    def __init__(self, n, manual_dna=None):
+    def __init__(self, n, manual_dna = None):
         self.n = n
         self.DNA = [random.randint(1, self.n) for i in range(self.n)] if manual_dna is None else manual_dna
         self.score = 0
@@ -40,6 +40,9 @@ class Individual:
         for i in range(self.n - 1, -1, -1):
             ret += (math.pow(10, i) * self.DNA[self.n - i - 1])
         return int(ret)
+
+    def get_dna(self):
+        return self.DNA
 
 
 def check_horizontal(position):
