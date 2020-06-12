@@ -32,7 +32,7 @@ class Individual:
             self.score += check_horizontal(self.DNA)
             self.score += check_diagonal(self.DNA)
             self.score = int(self.score / 2)
-            print("Individual has a score of {0}".format(self.score))
+            #print("Individual has a score of {0}".format(self.score))
         return self.score
 
     def concat_dna(self):

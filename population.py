@@ -20,6 +20,7 @@ class Population:
     def calc_fitness_total(self):
         self.fitness_total = sum([self.individuals[i].get_score() for i in range(self.size)])
 
+    # TODO: Solve time complexity problem
     def weighted_sample(self):
         weighted = []
         for i, ind in enumerate(self.individuals):
@@ -37,15 +38,5 @@ class Population:
             a[i] = a[i] - b[i]
         self.add_individual(Individual(self.n, a))
         self.add_individual(Individual(self.n, b))
-
-
-
-def dna_splice(a,b):
-    n = len(a)
-    idx = random.randint(1, n - 1)
-    for i in range(idx):
-        a[i] = a[i] + b[i]
-        b[i] = a[i] - b[i]
-        a[i] = a[i] - b[i]
 
 
