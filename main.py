@@ -5,8 +5,7 @@ from population import Population
 def main(n, pop):
     population = initialize_pop(n, pop)
     running = True
-    max_iter = 10000
-
+    max_iter = 2500
     while running:
         new_pop = Population(n, pop)
         for i in range(int(pop/2)):
@@ -15,11 +14,11 @@ def main(n, pop):
             new_pop.breed(ind_a, ind_b)
         population = new_pop
         performance = population.get_fitness() / pop
-        print("Generation {0} | Performance {1}".format(10000 - max_iter, performance))
+        print("Generation {0} | Performance {1}".format(2500 - max_iter, performance))
         if performance >= n or max_iter < 0:
             break
         max_iter -= 1
-    print("Found optimal solution... {0}\n".format(population.random_sample()))
+    print("Found optimal solution...\n {0}".format(population.random_sample()))
 
 
 def int_prompt(question, rmin, rmax):
@@ -46,6 +45,5 @@ def initialize_pop(n, pop):
 if __name__ == "__main__":
     n = int_prompt("What dimension would you like to use?\n", 1, 10)
     pop = int_prompt("What population size would you like to use?\n", 1, 1001)
-    max_iter = int_prompt("What should be the maximum number of generations?\n")
     print("Chosen arguements\nDimension Size:{0}\nPopulation Size:{1}".format(n, pop))
     main(n, pop)
