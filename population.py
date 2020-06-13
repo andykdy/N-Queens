@@ -28,6 +28,9 @@ class Population:
                 weighted.append(i)
         return self.individuals[random.choice(weighted)]
 
+    def random_sample(self):
+        return random.choice(self.individuals)
+
     def breed(self, indiv_a, indiv_b):
         a = indiv_a.get_dna().copy()
         b = indiv_b.get_dna().copy()
