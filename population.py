@@ -39,7 +39,18 @@ class Population:
             a[i] = a[i] + b[i]
             b[i] = a[i] - b[i]
             a[i] = a[i] - b[i]
+        # Chance to mutate here
+        if random.randint(0, 100) < 2:
+            mutate(a)
+            mutate(b)
         self.add_individual(Individual(self.n, a))
         self.add_individual(Individual(self.n, b))
 
+
+def mutate(arr):
+    n = len(arr)
+    left = random.randint(0, n - 2)
+    right = random.randint(left + 1, n - 1)
+    for i in range(left, right, 1):
+        arr[i] = n + 1 - arr[i]
 

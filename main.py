@@ -4,9 +4,8 @@ from population import Population
 
 def main(n, pop):
     population = initialize_pop(n, pop)
-    running = True
     max_iter = 2500
-    while running:
+    while True:
         new_pop = Population(n, pop)
         for i in range(int(pop/2)):
             ind_a = population.weighted_sample()
