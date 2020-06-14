@@ -34,13 +34,15 @@ class Population:
     def breed(self, indiv_a, indiv_b):
         a = indiv_a.get_dna().copy()
         b = indiv_b.get_dna().copy()
-        idx = random.randint(1, self.n - 1)
-        for i in range(idx):
+        n = len(a)
+        left = random.randint(0, n - 2)
+        right = random.randint(left + 1, n - 1)
+        for i in range(left, right, 1):
             a[i] = a[i] + b[i]
             b[i] = a[i] - b[i]
             a[i] = a[i] - b[i]
         # Chance to mutate here
-        if random.randint(0, 100) < 2:
+        if random.randint(0, 100) < 3:
             mutate(a)
             mutate(b)
         self.add_individual(Individual(self.n, a))
