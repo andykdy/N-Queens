@@ -20,13 +20,8 @@ class Population:
     def calc_fitness_total(self):
         self.fitness_total = sum([self.individuals[i].get_score() for i in range(self.size)])
 
-    # TODO: Solve time complexity problem
     def weighted_sample(self):
-        weighted = []
-        for i, ind in enumerate(self.individuals):
-            for j in range(ind.get_score()):
-                weighted.append(i)
-        return self.individuals[random.choice(weighted)]
+        return random.choices(self.individuals, [self.individuals[i].get_score() for i in range(self.size)])[0]
 
     def random_sample(self):
         return random.choice(self.individuals)

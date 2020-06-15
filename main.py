@@ -35,13 +35,6 @@ def main(n, pop):
                 break
             max_iter -= 1
 
-# def test(n):
-#     a = Individual(n, [3,1,4,2])
-#     #a = Individual(n, [4,4,4,4])
-#     #a = Individual(n, [1,2,3,4])
-#     print(a.get_score())
-
-
 
 def int_prompt(question, rmin, rmax):
     while True:
@@ -65,8 +58,9 @@ def initialize_pop(n, pop):
 
 
 if __name__ == "__main__":
-    n = int_prompt("What dimension would you like to use?\n", 1, 20)
-    pop = int_prompt("What population size would you like to use?\n", 4, 1001)
+    n = int_prompt("What dimension would you like to use?\n", 1, 26)
+    pop = int_prompt("What population size would you like to use? (Must be even)\n", 4, 1001)
+    if pop % 2 is not 0:
+        pop += 1
     print("Chosen arguements\nDimension Size:{0}\nPopulation Size:{1}".format(n, pop))
-    #test(n)
     main(n, pop)
