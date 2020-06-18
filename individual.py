@@ -1,13 +1,11 @@
 import random
 from functools import reduce
 
-"""
-A individual in a population.
-"""
+""" An individual in a population. """
 
 
 class Individual:
-    def __init__(self, n, manual_dna = None):
+    def __init__(self, n, manual_dna=None):
         self.n = n
         self.DNA = [random.randint(1, self.n) for i in range(self.n)] if manual_dna is None else manual_dna
         self.score = 0
