@@ -26,7 +26,7 @@ def main(n, pop):
                 print("Found optimal solution...\n {0}".format(best))
                 return
             if len(perf) * performance / sum(perf) > STAGNANT_THRESHOLD and max_iter < MAX_GEN * 0.6:
-                print("Evolution stagnant\nRestarting population with increased size\n")
+                print("Evolution stagnant\nRestarting population with increased size\nPop : {0}".format(pop))
                 pop += 100
                 break
             if max_iter < 0:
