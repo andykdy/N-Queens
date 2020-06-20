@@ -20,4 +20,8 @@ But I will follow [this](https://arxiv.org/ftp/arxiv/papers/1802/1802.02006.pdf)
 #### - incorporation of async processing
 #### - time complexity of Individual.get_score()
 #### - introduce backtracking algorithm for comparison
+#### - random "brute force" method
 
+#### Known Issue...
+#### - evolution stagnates with high N value and low population
+#### - need a way to quantify results
