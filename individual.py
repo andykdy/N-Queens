@@ -29,7 +29,6 @@ class Individual:
         if self.score is 0:
             # Vertical hits are not possible because each queen owns one column
             self.score += check_horizontal(self.DNA)
-            print(self.score)
             self.score += check_diagonal(self.DNA)
             self.score = int(self.score / 2)
         return self.score - combin

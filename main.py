@@ -12,6 +12,8 @@ def backtrack(n):
             a = Individual(n,[1,3,0,0])
             a.get_score()
             pass
+    raise NotImplementedError
+
 
 def genetic(n, pop):
     while True:
@@ -65,15 +67,14 @@ def initialize_pop(n, pop):
 
 
 if __name__ == "__main__":
-    # n = int_prompt("What dimension (N) would you like to use?\n", 1, 26)
-    # mode = int_prompt("What mode would you like to use? Input the corresponding number\n0. Genetic Algorithm\n"
-    #                 "1. Backtracking\n", -1, 3)
-    # if mode is 0:
-    #     pop = int_prompt("What population size would you like to use? (Must be even)\n", 4, 1001)
-    #     if pop % 2 is not 0:
-    #         pop += 1
-    #     print("Chosen arguements\nDimension Size:{0}\nPopulation Size:{1}".format(n, pop))
-    #     genetic(n, pop)
-    # elif mode is 1:
-    #     backtrack(n)
-    backtrack(4)
+    n = int_prompt("What dimension (N) would you like to use?\n", 1, 26)
+    mode = int_prompt("What mode would you like to use? Input the corresponding number\n0. Genetic Algorithm\n"
+                    "1. Backtracking\n", -1, 3)
+    if mode is 0:
+        pop = int_prompt("What population size would you like to use? (Must be even)\n", 4, 1001)
+        if pop % 2 is not 0:
+            pop += 1
+        print("Chosen arguements\nDimension Size:{0}\nPopulation Size:{1}".format(n, pop))
+        genetic(n, pop)
+    elif mode is 1:
+        backtrack(n)
