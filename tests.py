@@ -25,6 +25,16 @@ class TestIndividuals(unittest.TestCase):
         a = Individual(4, [1, 1, 3, 3])
         self.assertEqual(a.get_score(), 2)
 
+    # Max conflict is (2 * 1)/2 == 1
+    # With one conflict, this max is reached. Thus a score of 0
+    def test_partial_conflict(self):
+        a = Individual(4, [1, 1, 0, 0])
+        self.assertEqual(a.get_score(), 0)
+
+    def test_partial_perfect(self):
+        a = Individual(4, [1, 0, 2, 0])
+        self.assertEqual(a.get_score(), 1)
+
     def test_indiv_add(self):
         n = 5
         a = Individual(n, [1, 1, 1, 1, 1])
@@ -62,6 +72,8 @@ class TestIndividuals(unittest.TestCase):
         pop.add_individual(a)
         pop.add_individual(b)
         self.assertEqual(pop.get_fitness(), 12)
+
+
 
 
 if __name__ == '__main__':

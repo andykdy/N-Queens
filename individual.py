@@ -7,8 +7,13 @@ from functools import reduce
 class Individual:
     def __init__(self, n, manual_dna=None):
         self.n = n
-        self.DNA = [random.randint(1, self.n) for i in range(self.n)] if manual_dna is None else manual_dna
         self.score = 0
+        if manual_dna is None:
+            self.DNA = [random.randint(1, self.n) for i in range(self.n)]
+            self.placed = n
+        else:
+            self.DNA = manual_dna
+            self.placed = n - self.DNA.count(0)
 
     def __str__(self):
         ret = print_line(self.n, "")
@@ -31,18 +36,31 @@ class Individual:
     def get_dna(self):
         return self.DNA
 
+"""
+    Input : dna (position of chess pieces on the board)
+    Output: int
 
-def check_horizontal(position):
-    n = len(position) - 1
-    score = n * (1 + n) + n + 1
-    for x, y in enumerate(position):
-        score -= reduce(lambda _sum, curr: _sum + 1 if curr == y else _sum, [0] + position)
+    0 means that there are no horizontal conflicts
+    Maximum value is n * (n - 1) / 2 meaning all n pieces are lined up horizontally
+"""
+def check_horizontal(dna):
+    n = len(dna) - dna.count(0)
+    score = n * (n - 1) + n
+    for x, y in enumerate(dna):
+        # append dna to [0] for reduction
+        score -= reduce(lambda _sum, curr: _sum + 1 if curr == y and curr is not 0 else _sum, [0] + dna)
     return score
 
+"""
+    Input : dna (position of chess pieces on the board)
+    Output: int
 
+    0 means that there are no diagonal conflicts
+    Maximum value is n * (n - 1) / 2 meaning all n pieces are lined up diagonally
+"""
 def check_diagonal(position):
     # TODO More optimal algorithm possible
-    n = len(position) - 1
+    n = len(position) - position.count(0) - 1
     score = n * (1 + n) + n + 1
     for x1, y1 in enumerate(position):
         for x2, y2 in enumerate(position):
