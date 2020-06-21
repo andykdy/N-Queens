@@ -45,7 +45,7 @@ class TestIndividuals(unittest.TestCase):
         self.assertEqual(pop.index_sample(0).get_dna(), [1, 5, 5, 1, 1])
         self.assertEqual(pop.index_sample(1).get_dna(), [5, 1, 1, 5, 5])
 
-    def test_total_fitness(self):
+    def test_total_fitness_1(self):
         n = 5
         a = Individual(n, [1, 1, 1, 1, 1])
         b = Individual(n, [5, 5, 5, 5, 5])
@@ -54,7 +54,7 @@ class TestIndividuals(unittest.TestCase):
         pop.add_individual(b)
         self.assertEqual(pop.get_fitness(), 0)
 
-    def test_total_fitness(self):
+    def test_total_fitness_2(self):
         n = 4
         a = Individual(n, [2, 4, 1, 3])
         b = Individual(n, [3, 1, 4, 2])
