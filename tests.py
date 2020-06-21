@@ -25,15 +25,59 @@ class TestIndividuals(unittest.TestCase):
         a = Individual(4, [1, 1, 3, 3])
         self.assertEqual(a.get_score(), 2)
 
+    def test_noise_1(self):
+        a = Individual(6, [4, 3, 5, 1, 4, 2])
+        self.assertEqual(a.get_score(), 10)
+
+    def test_noise_2(self):
+        a = Individual(6, [4, 1, 3, 3, 1, 5])
+        self.assertEqual(a.get_score(), 9)
+
+    def test_noise_3(self):
+        a = Individual(6, [3, 3, 2, 2, 1, 1])
+        self.assertEqual(a.get_score(), 10)
+
     # Max conflict is (2 * 1)/2 == 1
     # With one conflict, this max is reached. Thus a score of 0
-    def test_partial_conflict(self):
+    def test_partial_conflict_4_1(self):
         a = Individual(4, [1, 1, 0, 0])
         self.assertEqual(a.get_score(), 0)
 
-    def test_partial_perfect(self):
+    def test_partial_conflict_4_2(self):
+        a = Individual(4, [1, 1, 1, 0])
+        self.assertEqual(a.get_score(), 0)
+
+    def test_partial_perfect_4_1(self):
         a = Individual(4, [1, 0, 2, 0])
         self.assertEqual(a.get_score(), 1)
+
+    def test_partial_perfect_4_2(self):
+        a = Individual(4, [2, 4, 1, 0])
+        self.assertEqual(a.get_score(), 3)
+
+    def test_partial_4_one(self):
+        a = Individual(4, [1, 0, 0, 0, 0])
+        self.assertEqual(a.get_score(), 0)
+
+    def test_partial_conflict_5_1(self):
+        a = Individual(5, [1, 1, 0, 0, 0])
+        self.assertEqual(a.get_score(), 0)
+
+    def test_partial_conflict_5_2(self):
+        a = Individual(5, [1, 1, 1, 0, 0])
+        self.assertEqual(a.get_score(), 0)
+
+    def test_partial_perfect_5_1(self):
+        a = Individual(5, [1, 0, 2, 0, 0])
+        self.assertEqual(a.get_score(), 1)
+
+    def test_partial_perfect_5_2(self):
+        a = Individual(5, [2, 4, 1, 0, 0])
+        self.assertEqual(a.get_score(), 3)
+
+    def test_partial_5_one(self):
+        a = Individual(5, [1, 0, 0, 0, 0])
+        self.assertEqual(a.get_score(), 0)
 
     def test_indiv_add(self):
         n = 5
@@ -51,7 +95,7 @@ class TestIndividuals(unittest.TestCase):
         a = Individual(n, [1, 1, 1, 1, 1])
         b = Individual(n, [5, 5, 5, 5, 5])
         pop = Population(n, 2)
-        pop.breed(a, b, 1, 3)
+        pop.breed(a, b, 1, 3, False)
         self.assertEqual(pop.index_sample(0).get_dna(), [1, 5, 5, 1, 1])
         self.assertEqual(pop.index_sample(1).get_dna(), [5, 1, 1, 5, 5])
 

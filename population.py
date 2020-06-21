@@ -38,7 +38,7 @@ class Population:
         return self.individuals[idx]
 
     """ Breeds two given individuals via randomly swapping numbers within a certain slice"""
-    def breed(self, indiv_a, indiv_b, left=None, right=None):
+    def breed(self, indiv_a, indiv_b, left=None, right=None, is_mutate=True):
         a = indiv_a.get_dna().copy()
         b = indiv_b.get_dna().copy()
         n = len(a)
@@ -50,7 +50,7 @@ class Population:
             b[i] = a[i] - b[i]
             a[i] = a[i] - b[i]
         # Chance to mutate here
-        if random.randint(0, 100) < MUTATE_CHANCE:
+        if random.randint(0, 100) < MUTATE_CHANCE and is_mutate:
             mutate(a)
             mutate(b)
         self.add_individual(Individual(self.n, a))
