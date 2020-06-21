@@ -1,18 +1,10 @@
 from individual import Individual
 from population import Population
 import math
+import time
 
 MAX_GEN = 2500
 STAGNANT_THRESHOLD = 0.95
-
-
-def backtrack(n):
-    for i in range(n):
-        for j in range(1, n+1,1):
-            a = Individual(n,[1,3,0,0])
-            a.get_score()
-            pass
-    raise NotImplementedError
 
 
 def genetic(n, pop):
@@ -34,7 +26,7 @@ def genetic(n, pop):
             if best.get_score() == n * (n - 1) / 2:
                 print("Found optimal solution...\n {0}".format(best))
                 return
-            if len(perf) * performance / sum(perf) > STAGNANT_THRESHOLD and max_iter < MAX_GEN * 0.6:
+            if len(perf) * performance / sum(perf) > STAGNANT_THRESHOLD and max_iter < MAX_GEN * 0.8:
                 print("Evolution stagnant\nRestarting population with increased size\nPop : {0}".format(pop))
                 pop += 100
                 break
@@ -43,6 +35,72 @@ def genetic(n, pop):
                 pop += 100
                 break
             max_iter -= 1
+
+
+def backtrack(n):
+    for i in range(n):
+        for j in range(1, n+1,1):
+            a = Individual(n,[1,3,0,0])
+            a.get_score()
+            pass
+    raise NotImplementedError
+
+
+def bruteforce(n):
+    dna = [1] * n
+    max_score = n * (n - 1) / 2
+    while True:
+        try:
+            increment_dna(dna)
+        except IndexError:
+            print("No solution found for given dimension.\n")
+        if 0 not in dna:
+            print("Attempting valid DNA {0}".format(dna))
+            indiv = Individual(n, dna)
+            score = indiv.get_score()
+            if score == max_score:
+                print(indiv)
+                return
+
+
+def increment_dna(dna):
+    dna[-1] += 1
+    for i in range(len(dna) - 1, -1, -1):
+        if dna[i] > len(dna):
+            if i == 0:
+                raise IndexError
+            dna[i] = 1
+            dna[i - 1] += 1
+
+
+def opt_bruteforce(n):
+    dna = [i for i in range(1,n + 1,1)]
+    max_score = n * (n - 1) / 2
+    while True:
+        try:
+            optimized_incr(dna)
+        except IndexError:
+            print("No solution found for given dimension.\n")
+        if 0 not in dna:
+            print("Attempting valid DNA {0}".format(dna))
+            indiv = Individual(n, dna)
+            score = indiv.get_score()
+            if score == max_score:
+                print(indiv)
+                return
+
+
+def optimized_incr(dna):
+    while True:
+        dna[-1] += 1
+        for i in range(len(dna) - 1, -1, -1):
+            if dna[i] > len(dna):
+                if i == 0:
+                    raise IndexError
+                dna[i] = 1
+                dna[i - 1] += 1
+        if len(dna) == len(set(dna)):
+            break
 
 
 def int_prompt(question, rmin, rmax):
@@ -67,14 +125,22 @@ def initialize_pop(n, pop):
 
 
 if __name__ == "__main__":
-    n = int_prompt("What dimension (N) would you like to use?\n", 1, 26)
+    n = int_prompt("What dimension (N) would you like to use?\n", 2, 26)
     mode = int_prompt("What mode would you like to use? Input the corresponding number\n0. Genetic Algorithm\n"
-                    "1. Backtracking\n", -1, 3)
+                    "1. Backtracking\n2. Brute force\n3. Optimized Brute Force\n", -1, 4)
+    init_time = time.perf_counter()
     if mode is 0:
         pop = int_prompt("What population size would you like to use? (Must be even)\n", 4, 1001)
         if pop % 2 is not 0:
             pop += 1
-        print("Chosen arguements\nDimension Size:{0}\nPopulation Size:{1}".format(n, pop))
+        print("Chosen arguements\nDimension Size:{0}\nPopulation Size:{1}\n".format(n, pop))
+        init_time = time.perf_counter()
         genetic(n, pop)
     elif mode is 1:
         backtrack(n)
+    elif mode is 2:
+        bruteforce(n)
+    elif mode is 3:
+        opt_bruteforce(n)
+    end_time = time.perf_counter()
+    print("Execution took {0:0.4f} seconds".format(end_time - init_time))

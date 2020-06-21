@@ -1,6 +1,8 @@
 import random
 from individual import Individual
 
+# Mutate chance in percentage
+MUTATE_CHANCE = 3
 
 class Population:
     def __init__(self, n, size):
@@ -48,7 +50,7 @@ class Population:
             b[i] = a[i] - b[i]
             a[i] = a[i] - b[i]
         # Chance to mutate here
-        if random.randint(0, 100) < 0:
+        if random.randint(0, 100) < MUTATE_CHANCE:
             mutate(a)
             mutate(b)
         self.add_individual(Individual(self.n, a))
