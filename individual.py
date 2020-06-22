@@ -16,8 +16,10 @@ class Individual:
     def __init__(self, n, manual_dna=None):
         self.n = n
         self.score = -1
-        # TODO: Use random.sample for unique dna
-        self.DNA = [random.randint(1, self.n) for i in range(self.n)] if manual_dna is None else manual_dna
+        if manual_dna is None:
+            self.DNA = random.sample([i + 1 for i in range(n)], n)
+        else:
+            self.DNA = manual_dna
 
     def __str__(self):
         ret = print_line(self.n, "")
@@ -38,12 +40,8 @@ class Individual:
             placed = self.n - self.DNA.count(0)
             combin = int(placed * (placed - 1) / 2)
             self.score = 0
-            self.score += check_horizontal(self.DNA)
             self.score += check_diagonal(self.DNA)
-            self.score = math.ceil(self.score / 2)
-            return self.score - combin
-        else:
-            return self.score
+        return self.score
 
     def get_dna(self):
         return self.DNA
@@ -75,11 +73,14 @@ def check_horizontal(dna):
 def check_diagonal(position):
     # TODO More optimal algorithm possible
     n = len(position) - position.count(0)
-    score = n * (n - 1) + n
+    score = n * (n - 1) / 2 + n
+    seen = []
     for x1, y1 in enumerate(position):
         for x2, y2 in enumerate(position):
-            if abs(x1 - x2) == abs(y1 - y2) and y1 * y2 is not 0:
-                score -= 1
+            if seen.count(x2) is 0:
+                if abs(x1 - x2) == abs(y1 - y2) and y1 * y2 is not 0:
+                    score -= 1
+        seen.append(x1)
     return score
 
 
