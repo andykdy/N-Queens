@@ -13,8 +13,10 @@ But I will roughly follow [this](https://arxiv.org/ftp/arxiv/papers/1802/1802.02
  
 
 ## Why?
-I apply evolution theory to everything in life... Even when it doesn't make sense...
-### Enjoy!
+I apply evolution theory to everything in life even when it doesn't make sense.
+Charles Darwin would've wanted it this way.
+
+## Enjoy!
 
 #### Further Improvements
 - incorporation of async processing
