@@ -1,4 +1,5 @@
 import random
+import math
 from functools import reduce
 
 """ An individual in a population. """
@@ -7,13 +8,8 @@ from functools import reduce
 class Individual:
     def __init__(self, n, manual_dna=None):
         self.n = n
-        self.score = 0
-        if manual_dna is None:
-            self.DNA = [random.randint(1, self.n) for i in range(self.n)]
-            self.placed = n
-        else:
-            self.DNA = manual_dna
-            self.placed = n - self.DNA.count(0)
+        self.score = -1
+        self.DNA = [random.randint(1, self.n) for i in range(self.n)] if manual_dna is None else manual_dna
 
     def __str__(self):
         ret = print_line(self.n, "")
@@ -25,13 +21,17 @@ class Individual:
         return ret
 
     def get_score(self):
-        combin = int(self.n * (self.n - 1) / 2)
-        if self.score is 0:
+        if self.score is -1:
+            placed = self.n - self.DNA.count(0)
+            combin = int(placed * (placed - 1) / 2)
+            self.score = 0
             # Vertical hits are not possible because each queen owns one column
             self.score += check_horizontal(self.DNA)
             self.score += check_diagonal(self.DNA)
-            self.score = int(self.score / 2)
-        return self.score - combin
+            self.score = math.ceil(self.score / 2)
+            return self.score - combin
+        else:
+            return self.score
 
     def get_dna(self):
         return self.DNA
@@ -60,11 +60,11 @@ def check_horizontal(dna):
 """
 def check_diagonal(position):
     # TODO More optimal algorithm possible
-    n = len(position) - position.count(0) - 1
-    score = n * (1 + n) + n + 1
+    n = len(position) - position.count(0)
+    score = n * (n - 1) + n
     for x1, y1 in enumerate(position):
         for x2, y2 in enumerate(position):
-            if abs(x1 - x2) == abs(y1 - y2):
+            if abs(x1 - x2) == abs(y1 - y2) and y1 * y2 is not 0:
                 score -= 1
     return score
 
