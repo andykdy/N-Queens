@@ -2,7 +2,7 @@ import random
 from individual import Individual
 
 # Mutate chance in percentage
-MUTATE_CHANCE = 3
+MUTATE_CHANCE = 0
 
 """
     An population of individuals
@@ -46,23 +46,40 @@ class Population:
         return self.individuals[idx]
 
     """ Breeds two given individuals via randomly swapping numbers within a certain slice"""
-    def breed(self, indiv_a, indiv_b, left=None, right=None, is_mutate=True):
+    # def breed(self, indiv_a, indiv_b, left=None, right=None, is_mutate=True):
+    #     a = indiv_a.get_dna().copy()
+    #     b = indiv_b.get_dna().copy()
+    #     n = len(a)
+    #     if left is None and right is None:
+    #         left = random.randint(0, n - 2)
+    #         right = random.randint(left + 1, n - 1)
+    #     for i in range(left, right, 1):
+    #         a[i] = a[i] + b[i]
+    #         b[i] = a[i] - b[i]
+    #         a[i] = a[i] - b[i]
+    #     # Chance to mutate here
+    #     if random.randint(0, 100) < MUTATE_CHANCE and is_mutate:
+    #         mutate(a)
+    #         mutate(b)
+    #     self.add_individual(Individual(self.n, a))
+    #     self.add_individual(Individual(self.n, b))
+
+    def breed(self, indiv_a, indiv_b, is_mutate=True):
         a = indiv_a.get_dna().copy()
         b = indiv_b.get_dna().copy()
         n = len(a)
-        if left is None and right is None:
-            left = random.randint(0, n - 2)
-            right = random.randint(left + 1, n - 1)
+        left = random.randint(0, n - 2)
+        right = random.randint(left + 1, n - 1)
+        ret = [0] * (right - left)
         for i in range(left, right, 1):
-            a[i] = a[i] + b[i]
-            b[i] = a[i] - b[i]
-            a[i] = a[i] - b[i]
+            ret[i - left] = a[left]
+            a.remove(a[left])
+        ret = ret + random.sample(a, n - right + left)
         # Chance to mutate here
         if random.randint(0, 100) < MUTATE_CHANCE and is_mutate:
             mutate(a)
             mutate(b)
-        self.add_individual(Individual(self.n, a))
-        self.add_individual(Individual(self.n, b))
+        self.add_individual(Individual(self.n, ret))
 
 
 def mutate(arr):

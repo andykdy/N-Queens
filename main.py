@@ -14,7 +14,7 @@ def genetic(n, pop):
         perf = []
         while True:
             new_pop = Population(n, pop)
-            for i in range(math.ceil(pop/2)):
+            for i in range(pop):
                 ind_a = population.weighted_sample()
                 ind_b = population.weighted_sample()
                 new_pop.breed(ind_a, ind_b)
