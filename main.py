@@ -1,6 +1,5 @@
 from individual import Individual
 from population import Population
-import math
 import time
 
 MAX_GEN = 2500
@@ -52,7 +51,7 @@ def backtrack(n, dna, idx=0):
         print(curr_indiv)
         return True
     for i in range(1, n + 1, 1):
-        if is_perf:
+        if is_perf and dna.count(i) is 0:
             dna[idx] = i
             if backtrack(n, dna, idx + 1):
                 return True
@@ -61,45 +60,22 @@ def backtrack(n, dna, idx=0):
 
 
 def bruteforce(n):
-    dna = [1] * n
-    max_score = n * (n - 1) / 2
-    while True:
-        try:
-            increment_dna(dna)
-        except IndexError:
-            print("No solution found for given dimension.\n")
-        if 0 not in dna:
-            print("Attempting valid DNA {0}".format(dna))
-            indiv = Individual(n, dna)
-            score = indiv.get_score()
-            if score == max_score:
-                print(indiv)
-                return
-
-
-def increment_dna(dna):
-    dna[-1] += 1
-    for i in range(len(dna) - 1, -1, -1):
-        if dna[i] > len(dna):
-            if i == 0:
-                raise IndexError
-            dna[i] = 1
-            dna[i - 1] += 1
-
-
-def opt_bruteforce(n):
     dna = [i for i in range(1,n + 1,1)]
     max_score = n * (n - 1) / 2
     while True:
         try:
             optimized_incr(dna)
         except IndexError:
+            print()
             print("No solution found for given dimension.\n")
+            return
         if 0 not in dna:
-            print("Attempting valid DNA {0}".format(dna))
+            print("\r", end="")
+            print("Attempting valid DNA {0}".format(dna), end="")
             indiv = Individual(n, dna)
             score = indiv.get_score()
             if score == max_score:
+                print()
                 print(indiv)
                 return
 
@@ -132,12 +108,13 @@ def int_prompt(question, rmin, rmax):
 
 
 if __name__ == "__main__":
-    n = int_prompt("What dimension (N) would you like to use?\n", 2, 26)
+    n = int_prompt("What dimension (N) would you like to use?\n", 2, 41)
     mode = int_prompt("What mode would you like to use? Input the corresponding number\n0. Genetic Algorithm\n"
-                    "1. Backtracking\n2. Brute force\n3. Optimized Brute Force\n", -1, 4)
+                    "1. Backtracking\n2. Brute force\n", -1, 4)
     init_time = time.perf_counter()
+    print("Starting {0}-Queens Problem\n".format(n))
     if mode is 0:
-        pop = int_prompt("What population size would you like to use? (Must be even)\n", 4, 1001)
+        pop = int_prompt("What population size would you like to use? (Odd values will be round up)\n", 4, 1001)
         if pop % 2 is not 0:
             pop += 1
         print("Chosen arguements\nDimension Size:{0}\nPopulation Size:{1}\n".format(n, pop))
@@ -147,7 +124,5 @@ if __name__ == "__main__":
         backtrack(n, [0 for i in range(n)])
     elif mode is 2:
         bruteforce(n)
-    elif mode is 3:
-        opt_bruteforce(n)
     end_time = time.perf_counter()
     print("Execution took {0:0.4f} seconds".format(end_time - init_time))

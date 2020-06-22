@@ -3,6 +3,8 @@ from individual import Individual
 from population import Population
 
 
+# Note: Horizontal duplicate tests deprecated after refactoring breed
+
 class TestIndividuals(unittest.TestCase):
 
     def test_auto_indiv(self):
