@@ -37,13 +37,20 @@ def genetic(n, pop):
             max_iter -= 1
 
 
-def backtrack(n):
-    for i in range(n):
-        for j in range(1, n+1,1):
-            a = Individual(n,[1,3,0,0])
-            a.get_score()
-            pass
-    raise NotImplementedError
+def backtrack(n, dna, idx=0):
+    filled = n - dna.count(0)
+    curr_indiv = Individual(n, dna)
+    is_perf = curr_indiv.get_score() == int(filled * (filled - 1) / 2)
+    if dna.count(0) == 0 and is_perf:
+        print(curr_indiv)
+        return True
+    for i in range(1, n + 1, 1):
+        if is_perf:
+            dna[idx] = i
+            if backtrack(n, dna, idx + 1):
+                return True
+            dna[idx] = 0
+    return False
 
 
 def bruteforce(n):
@@ -137,7 +144,7 @@ if __name__ == "__main__":
         init_time = time.perf_counter()
         genetic(n, pop)
     elif mode is 1:
-        backtrack(n)
+        backtrack(n, [0 for i in range(n)])
     elif mode is 2:
         bruteforce(n)
     elif mode is 3:
