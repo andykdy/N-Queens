@@ -90,6 +90,7 @@ class TestIndividuals(unittest.TestCase):
         pop.add_individual(b)
         self.assertEqual(len(pop.individuals), 2)
 
+    # Testing breed with mutations off for consistent result
     def test_breed(self):
         n = 5
         a = Individual(n, [1, 1, 1, 1, 1])
@@ -116,8 +117,6 @@ class TestIndividuals(unittest.TestCase):
         pop.add_individual(a)
         pop.add_individual(b)
         self.assertEqual(pop.get_fitness(), 12)
-
-
 
 
 if __name__ == '__main__':

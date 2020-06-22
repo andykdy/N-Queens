@@ -37,6 +37,13 @@ def genetic(n, pop):
             max_iter -= 1
 
 
+def initialize_pop(n, pop):
+    init_pop = Population(n, pop)
+    for i in range(pop):
+        init_pop.add_individual(Individual(n))
+    return init_pop
+
+
 def backtrack(n, dna, idx=0):
     filled = n - dna.count(0)
     curr_indiv = Individual(n, dna)
@@ -122,13 +129,6 @@ def int_prompt(question, rmin, rmax):
             print("N value must be between {0} and {1}\nTry Again\n".format(rmin, rmax))
         except ValueError:
             print("N value must be an integer\nTry Again\n")
-
-
-def initialize_pop(n, pop):
-    init_pop = Population(n, pop)
-    for i in range(pop):
-        init_pop.add_individual(Individual(n))
-    return init_pop
 
 
 if __name__ == "__main__":

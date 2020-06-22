@@ -2,13 +2,21 @@ import random
 import math
 from functools import reduce
 
-""" An individual in a population. """
 
 
+"""
+    An individual in a population
+    n = number of queen pieces and dimensional width of board
+    score = fitness of the individual
+    DNA = a list of integers where the index is the x coord and the value is the y coord
+    @@@ DNA can be improved by always generating a random but unique DNA with no repeating values
+    @@@ Maybe present "number of placed pieces" as a private variable?
+"""
 class Individual:
     def __init__(self, n, manual_dna=None):
         self.n = n
         self.score = -1
+        # TODO: Use random.sample for unique dna
         self.DNA = [random.randint(1, self.n) for i in range(self.n)] if manual_dna is None else manual_dna
 
     def __str__(self):
@@ -19,13 +27,17 @@ class Individual:
             ret += "|\n"
             ret = print_line(self.n, ret)
         return ret
-
+    """
+        Calculate the score by checking the horizontal and diagonal conflict.
+        Note:   Vertical conflicts are not possible because each queen owns a column
+        @@@ Some checks are redundant... I can reduce a N * N check into N + (N - 1) check
+        @@@ Wondering if self.score - combin is needed... 
+    """
     def get_score(self):
-        if self.score is -1:
+        if self.score is - 1:
             placed = self.n - self.DNA.count(0)
             combin = int(placed * (placed - 1) / 2)
             self.score = 0
-            # Vertical hits are not possible because each queen owns one column
             self.score += check_horizontal(self.DNA)
             self.score += check_diagonal(self.DNA)
             self.score = math.ceil(self.score / 2)
@@ -35,6 +47,7 @@ class Individual:
 
     def get_dna(self):
         return self.DNA
+
 
 """
     Input : dna (position of chess pieces on the board)
@@ -50,6 +63,7 @@ def check_horizontal(dna):
         # append dna to [0] for reduction
         score -= reduce(lambda _sum, curr: _sum + 1 if curr == y and curr is not 0 else _sum, [0] + dna)
     return score
+
 
 """
     Input : dna (position of chess pieces on the board)
@@ -69,6 +83,9 @@ def check_diagonal(position):
     return score
 
 
+"""
+    Util for printing an individual
+"""
 def print_line(n, val):
     for i in range(n):
         val += ".--"

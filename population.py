@@ -4,6 +4,14 @@ from individual import Individual
 # Mutate chance in percentage
 MUTATE_CHANCE = 3
 
+"""
+    An population of individuals
+    n = number of queen pieces and dimensional width of board
+    size = number of individuals in this population
+    fitness_total = the sum of fitness for each individual in the population
+    individuals = a list of individuals 
+    @@@ breed() shouldn't be implemented to add two new Individuals. What if the user wants an odd numbered population?
+"""
 class Population:
     def __init__(self, n, size):
         self.n = n
