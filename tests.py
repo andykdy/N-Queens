@@ -56,7 +56,7 @@ class TestIndividuals(unittest.TestCase):
         self.assertEqual(a.get_score(), 3)
 
     def test_partial_4_one(self):
-        a = Individual(4, [1, 0, 0, 0, 0])
+        a = Individual(4, [1, 0, 0, 0])
         self.assertEqual(a.get_score(), 0)
 
     def test_partial_conflict_5_1(self):
